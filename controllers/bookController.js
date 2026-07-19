@@ -1,8 +1,8 @@
 const books = require("../models/bookModel");
 
 
-const getAllBooks = (req, res) => {
-    res.json(books);
+const getAllBooks = (req,res)=>{
+    res.success(books);
 };
 
 
@@ -12,12 +12,13 @@ const getBookById = (req, res) => {
     const book = books.find((book) => book.id === bookId);
 
     if (!book) {
-        return res.status(404).json({
-            message: "Book not found"
-        });
+       return res.status(404).json({
+    success: false,
+    message: "Book not found"
+});
     }
 
-    res.json(book);
+   res.success(book);
 };
 
 const addBook = (req, res) => {
@@ -29,10 +30,12 @@ const addBook = (req, res) => {
 
     books.push(newBook);
 
-    res.status(201).json({
-        message: "Book added successfully",
-        book: newBook
-    });
+   res.status(201).json({
+    success:true,
+    message:"Book added successfully",
+    data:newBook
+});
+
 };
 
 const updateBook = (req, res) => {
@@ -42,17 +45,19 @@ const updateBook = (req, res) => {
 
     if (!book) {
         return res.status(404).json({
-            message: "Book not found"
-        });
+    success: false,
+    message: "Book not found"
+});
     }
 
     book.title = req.body.title;
     book.author = req.body.author;
 
-    res.json({
-        message: "Book updated successfully",
-        book
-    });
+   res.json({
+    success: true,
+    message: "Book updated successfully",
+    data: book
+});
 };
 
 const deleteBook = (req, res) => {
@@ -60,18 +65,20 @@ const deleteBook = (req, res) => {
 
     const index = books.findIndex((book) => book.id === bookId);
 
-    if (index === -1) {
-        return res.status(404).json({
-            message: "Book not found"
-        });
-    }
+   if (index === -1) {
+    return res.status(404).json({
+        success: false,
+        message: "Book not found"
+    });
+}
 
     const deletedBook = books.splice(index, 1);
 
-    res.json({
-        message: "Book deleted successfully",
-        book: deletedBook[0]
-    });
+   res.json({
+    success: true,
+    message: "Book deleted successfully",
+    data: deletedBook[0]
+});
 };
 
 module.exports = {
