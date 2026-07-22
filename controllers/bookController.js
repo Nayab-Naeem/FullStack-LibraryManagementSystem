@@ -1,29 +1,34 @@
-const books = require("../models/bookModel");
+const pool = require("../config/db");
 
 // Handle unexpected errors using try...catch and Express error middleware
 
 const getAllBooks = async (req, res, next) => {
     try {
-        res.success(books);
+        const result = await pool.query("SELECT * FROM books");
+
+        res.success(result.rows);
+
     } catch (error) {
         next(error);
     }
 };
-
 const getBookById = async (req, res, next) => {
     try {
-        const bookId = Number(req.params.id);
+        const { id } = req.params;
 
-        const book = books.find((book) => book.id === bookId);
+        const result = await pool.query(
+            "SELECT * FROM books WHERE id = $1",  //parametrized query
+            [id]
+        );
 
-        if (!book) {
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Book not found"
             });
         }
 
-        res.success(book);
+        res.success(result.rows[0]);
 
     } catch (error) {
         next(error);
@@ -32,18 +37,18 @@ const getBookById = async (req, res, next) => {
 
 const addBook = async (req, res, next) => {
     try {
-        const newBook = {
-            id: books.length + 1,
-            title: req.body.title,
-            author: req.body.author
-        };
 
-        books.push(newBook);
+        const { title, author } = req.body;
+
+        const result = await pool.query(
+            "INSERT INTO books(title, author) VALUES($1, $2) RETURNING *",   // Insert the row and immediately return it.
+            [title, author]
+        );
 
         res.status(201).json({
             success: true,
             message: "Book added successfully",
-            data: newBook
+            data: result.rows[0]
         });
 
     } catch (error) {
@@ -53,24 +58,30 @@ const addBook = async (req, res, next) => {
 
 const updateBook = async (req, res, next) => {
     try {
-        const bookId = Number(req.params.id);
 
-        const book = books.find((book) => book.id === bookId);
+        const { id } = req.params;
+        const { title, author } = req.body;
 
-        if (!book) {
+        const result = await pool.query(
+            `UPDATE books
+             SET title = $1,
+                 author = $2
+             WHERE id = $3
+             RETURNING *`,
+            [title, author, id]
+        );
+
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Book not found"
             });
         }
 
-        book.title = req.body.title;
-        book.author = req.body.author;
-
         res.json({
             success: true,
             message: "Book updated successfully",
-            data: book
+            data: result.rows[0]
         });
 
     } catch (error) {
@@ -80,23 +91,25 @@ const updateBook = async (req, res, next) => {
 
 const deleteBook = async (req, res, next) => {
     try {
-        const bookId = Number(req.params.id);
 
-        const index = books.findIndex((book) => book.id === bookId);
+        const { id } = req.params;
 
-        if (index === -1) {
+        const result = await pool.query(
+            "DELETE FROM books WHERE id = $1 RETURNING *",
+            [id]
+        );
+
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "Book not found"
             });
         }
 
-        const deletedBook = books.splice(index, 1);
-
         res.json({
             success: true,
             message: "Book deleted successfully",
-            data: deletedBook[0]
+            data: result.rows[0]
         });
 
     } catch (error) {
