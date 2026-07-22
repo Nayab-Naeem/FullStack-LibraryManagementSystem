@@ -5,6 +5,8 @@ const validateBook = require("../middleware/validateBook");
 const { 
     getAllBooks,
     getBookById,
+    getBooksWithDetails,
+    searchBooks,
     addBook,
     updateBook,
     deleteBook
@@ -12,6 +14,10 @@ const {
 
 
 router.get("/", getAllBooks);
+
+router.get("/details", getBooksWithDetails);
+
+router.get("/search", searchBooks);
 
 router.get("/:id", getBookById);
 
