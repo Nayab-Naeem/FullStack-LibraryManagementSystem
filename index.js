@@ -15,6 +15,7 @@ const authorRoutes = require("./routes/authorRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const memberRoutes = require("./routes/memberRoutes");
 const borrowRoutes = require("./routes/borrowRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 app.use(express.json());
 
@@ -26,6 +27,7 @@ app.use("/authors", authorRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/members", memberRoutes);
 app.use("/borrow-records", borrowRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 app.use(errorHandler);
 
