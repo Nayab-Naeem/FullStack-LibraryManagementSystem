@@ -1,9 +1,19 @@
 require("dotenv").config();
+
+const cors = require("cors");    //importing cor for permission bridge between React and Express
+
 const pool = require("./config/db");
 
 const express = require("express");
 
 const app = express();
+
+
+app.use(
+  cors({
+    origin: "http://localhost:5173"  // for this port cor will give access
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 

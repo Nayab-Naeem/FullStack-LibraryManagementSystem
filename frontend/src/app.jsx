@@ -1,17 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import DashboardLayout from "./layouts/DashboardLayout";
+
+import Dashboard from "./pages/Dashboard";
+import Books from "./pages/Books";
+import Authors from "./pages/Authors";
+import Members from "./pages/Members";
 
 function App() {
   return (
-    <div className="min-h-screen bg-amber-50 flex items-center justify-center">
-      <h1 className="text-5xl font-bold text-amber-900">
-        Library Management System
-      </h1>
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route element={<DashboardLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/books" element={<Books />} />
+          <Route path="/authors" element={<Authors />} />
+          <Route path="/members" element={<Members />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
