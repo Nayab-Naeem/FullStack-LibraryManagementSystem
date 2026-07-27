@@ -7,9 +7,12 @@ import Books from "./pages/Books";
 import Authors from "./pages/Authors";
 import Members from "./pages/Members";
 
+import { Toaster } from "react-hot-toast";
+
 function App() {
   return (
     <BrowserRouter>
+     <Toaster position="top-right" />
       <Routes>
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<Dashboard />} />
