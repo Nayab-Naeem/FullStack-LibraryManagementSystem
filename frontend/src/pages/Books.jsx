@@ -25,11 +25,11 @@ function Books() {
 
   async function fetchBooks() {
     try {
-      const res = await API.get("/books");
+      const res = await API.get("/books/details");
       setBooks(res.data.data);
     } catch (err) {
       console.log(err);
-    } finally {
+    } finally {``
       setLoading(false);
     }
   }
