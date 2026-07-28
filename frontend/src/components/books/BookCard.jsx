@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiBook,FiEdit2,FiTrash2,FiUser,FiHash,FiCalendar, } from "react-icons/fi";
 
-function BookCard({ book , onEdit }) {
+function BookCard({ book , onEdit , onDelete }) {
   const quantity = book.quantity || 0;
   const available = book.available_quantity || 0;
 
@@ -122,6 +122,7 @@ function BookCard({ book , onEdit }) {
             </button>
 
           <button
+            onClick={() => onDelete(book)}
             className="flex-1 flex justify-center items-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2.5 rounded-xl transition"
           >
             <FiTrash2 />

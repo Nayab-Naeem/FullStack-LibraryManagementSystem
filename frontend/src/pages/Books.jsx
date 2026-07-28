@@ -3,6 +3,7 @@ import API from "../api/api";
 
 // import { useState } from "react";
 import AddBookModal from "../components/books/AddBookModal";
+import DeleteBookModal from "../components/books/DeleteBookModal";
 import BookStats from "../components/books/BookStats";
 import SearchBar from "../components/books/SearchBar";
 import CategoryFilter from "../components/books/CategoryFilter";
@@ -20,6 +21,7 @@ function Books() {
   const [showAddModal, setShowAddModal] = useState(false);
 
   const [selectedBook, setSelectedBook] = useState(null); // for making modal resueable for edit button in bookCard
+  const [deleteBook, setDeleteBook] = useState(null);
 
   useEffect(() => {
     fetchBooks();
@@ -39,6 +41,10 @@ function Books() {
  function handleEdit(book) {    //for edit button in bookcard
   setSelectedBook(book);
   setShowAddModal(true);
+}
+
+  function handleDelete(book) {  //for deleteButton on booksCard 
+  setDeleteBook(book);
 }
 
   const categories = [
@@ -108,7 +114,7 @@ function Books() {
 
       </div>
 
-      <BookGrid books={filteredBooks} onEdit = {handleEdit} />
+      <BookGrid books={filteredBooks} onEdit = {handleEdit}   onDelete={handleDelete} />
 
 {showAddModal && (
   <AddBookModal
@@ -118,6 +124,14 @@ function Books() {
     onBookAdded={fetchBooks}
   />
 )}
+
+{ deleteBook && (
+    <DeleteBookModal
+      book={deleteBook}
+      onClose={() => setDeleteBook(null)}
+      onDeleted={fetchBooks}
+    />
+  )}
 
     </div>
   );
