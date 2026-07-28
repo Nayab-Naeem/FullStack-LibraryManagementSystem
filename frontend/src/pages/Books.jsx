@@ -19,6 +19,8 @@ function Books() {
 
   const [showAddModal, setShowAddModal] = useState(false);
 
+  const [selectedBook, setSelectedBook] = useState(null); // for making modal resueable for edit button in bookCard
+
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -33,6 +35,11 @@ function Books() {
       setLoading(false);
     }
   }
+
+ function handleEdit(book) {    //for edit button in bookcard
+  setSelectedBook(book);
+  setShowAddModal(true);
+}
 
   const categories = [
     "All",
@@ -101,11 +108,13 @@ function Books() {
 
       </div>
 
-      <BookGrid books={filteredBooks} />
+      <BookGrid books={filteredBooks} onEdit = {handleEdit} />
 
 {showAddModal && (
   <AddBookModal
-    onClose={() => setShowAddModal(false)}
+     book={selectedBook}
+    onClose={() => { setShowAddModal(false);
+       setSelectedBook(null); } } 
     onBookAdded={fetchBooks}
   />
 )}

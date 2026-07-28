@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import API from "../../api/api";
 import toast from "react-hot-toast";
 
-function AddBookModal({ onClose, onBookAdded }) {
+function AddBookModal({ onClose, onBookAdded , book }) {
   const [authors, setAuthors] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,6 +22,19 @@ function AddBookModal({ onClose, onBookAdded }) {
   useEffect(() => {
     fetchDropdowns();
   }, []);
+
+  useEffect(() => {
+  if (book) {
+    setFormData({
+      title: book.title,
+      isbn: book.isbn,
+      published_year: book.published_year,
+      author_id: book.author_id,
+      category_id: book.category_id,
+      quantity: book.quantity,
+    });
+  }
+}, [book]);
 
   async function fetchDropdowns() {          //getting data through database
     try {
@@ -56,27 +69,38 @@ function AddBookModal({ onClose, onBookAdded }) {
     try {
       setLoading(true);
 
-      await API.post("/books", {
-        ...formData,
-        published_year: Number(formData.published_year),
-        author_id: Number(formData.author_id),
-        category_id: Number(formData.category_id),
-        quantity: Number(formData.quantity),
-      });
+     const payload = {
+  ...formData,
+  published_year: Number(formData.published_year),
+  author_id: Number(formData.author_id),
+  category_id: Number(formData.category_id),
+  quantity: Number(formData.quantity),
+};
 
-      toast.success("Book added successfully!");
+if (book) {
+  await API.put(`/books/${book.id}`, payload);
+} else {
+  await API.post("/books", payload);
+}
 
+      toast.success( book ? "Book updated successfully!": "Book added successfully!");
+    
       onBookAdded();
       onClose();
     } catch (err) {
-      console.error(err);
+  console.error(err);
 
-      toast.error(
-        err.response?.data?.message || "Failed to add book."
-      );
-    } finally {
-      setLoading(false);
-    }
+  console.log("Full Error:", err);
+  console.log("Response:", err.response);
+  console.log("Response Data:", err.response?.data);
+
+  toast.error(
+    err.response?.data?.message || "Something went wrong."
+  );
+} finally {
+  setLoading(false);
+}
+
   }
 
   return (
@@ -90,11 +114,11 @@ function AddBookModal({ onClose, onBookAdded }) {
         {/* Header */}
         <div className="border-b px-8 py-5">
           <h2 className="text-2xl font-bold text-[#4A2C2A]">
-            📚 Add New Book
+           {book ? "✏️ Edit Book" : "📚 Add New Book"}
           </h2>
 
           <p className="text-gray-500 mt-1">
-            Enter the details of the new book.
+            {book ? "Update the book details." : "Enter the details of the new book."}
           </p>
         </div>
 
@@ -230,7 +254,7 @@ function AddBookModal({ onClose, onBookAdded }) {
               disabled={loading}
               className="px-6 py-3 rounded-xl bg-[#8B5E3C] hover:bg-[#704628] text-white transition disabled:opacity-60"
             >
-              {loading ? "Saving..." : "Save Book"}
+            { loading ? "Saving..." : book ? "Update Book" : "Save Book" }
             </button>
           </div>
         </form>

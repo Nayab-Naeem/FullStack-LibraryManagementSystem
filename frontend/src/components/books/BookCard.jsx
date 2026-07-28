@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { FiBook,FiEdit2,FiTrash2,FiUser,FiHash,FiCalendar, } from "react-icons/fi";
 
-function BookCard({ book }) {
+function BookCard({ book , onEdit }) {
   const quantity = book.quantity || 0;
   const available = book.available_quantity || 0;
 
@@ -115,11 +115,11 @@ function BookCard({ book }) {
         <div className="mt-6 flex gap-2">
 
           <button
-            className="flex-1 flex justify-center items-center gap-2 bg-[#D4A373] hover:bg-[#704628] text-white py-2.5 rounded-xl transition"
-          >
-            <FiEdit2 />
-            Edit
-          </button>
+        onClick={() => onEdit(book)}
+        className="flex-1 flex justify-center items-center gap-2 bg-[#D4A373] hover:bg-[#704628] text-white py-2.5 rounded-xl transition">
+        <FiEdit2 />
+        Edit
+            </button>
 
           <button
             className="flex-1 flex justify-center items-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2.5 rounded-xl transition"
