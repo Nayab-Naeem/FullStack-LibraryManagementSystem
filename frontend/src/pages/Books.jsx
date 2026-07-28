@@ -16,16 +16,14 @@ function Books() {
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const [showAddModal, setShowAddModal] = useState(false);
 
   const [selectedBook, setSelectedBook] = useState(null); // for making modal resueable for edit button in bookCard
   const [deleteBook, setDeleteBook] = useState(null);
 
-  useEffect(() => {
-    fetchBooks();
-  }, []);
 
   async function fetchBooks() {
     try {
@@ -38,6 +36,32 @@ function Books() {
     }
   }
 
+  async function fetchCategories() {
+
+  try {
+
+    const categoriesRes = await API.get("/categories");
+
+    setCategories(
+      categoriesRes.data.data.map(
+        category => category.name
+      )
+    );
+
+  } catch(error) {
+
+    console.log(error);
+
+  }
+
+}
+
+ useEffect(() => {
+    fetchBooks();
+    fetchCategories();
+  }, []);
+
+
  function handleEdit(book) {    //for edit button in bookcard
   setSelectedBook(book);
   setShowAddModal(true);
@@ -47,20 +71,20 @@ function Books() {
   setDeleteBook(book);
 }
 
-  const categories = [
-    "All",
-    ...new Set(books.map((b) => b.category_name)),
-  ];
+   const filteredBooks = useMemo(() => {
 
-  const filteredBooks = useMemo(() => {
     return books.filter((book) => {
+
       const matchSearch =
-        book.title.toLowerCase().includes(search.toLowerCase()) ||
+        book.title
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
         book.isbn.includes(search);
 
       const matchCategory =
-        selectedCategory === "All" ||
-        book.category_name === selectedCategory;
+        selectedCategory === "" ||
+        book.category === selectedCategory;
+
 
       return matchSearch && matchCategory;
     });
@@ -76,7 +100,7 @@ function Books() {
   return (
     <div className="p-8 bg-[#FAF3E7] min-h-screen">
 
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col sm:flex-row justify-between   sm:items-center gap-4 mb-8">
 
         <div>
           <h1 className="text-4xl font-bold text-[#4A2C2A]">
@@ -114,7 +138,7 @@ function Books() {
 
       </div>
 
-      <BookGrid books={filteredBooks} onEdit = {handleEdit}   onDelete={handleDelete} />
+      <BookGrid books ={filteredBooks} onEdit = {handleEdit}   onDelete={handleDelete} />
 
 {showAddModal && (
   <AddBookModal

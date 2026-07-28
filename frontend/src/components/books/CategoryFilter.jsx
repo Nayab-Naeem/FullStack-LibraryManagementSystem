@@ -4,27 +4,37 @@ function CategoryFilter({
   setSelectedCategory,
 }) {
   return (
-    <div className="flex gap-3 flex-wrap">
+    <select
+      value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+      className="
+        px-5
+        py-3
+        rounded-xl
+        bg-white
+        shadow-md
+        text-[#4A2C2A]
+        outline-none
+        cursor-pointer
+        focus:ring-2
+        focus:ring-[#8B5E3C]
+      "
+    >
+
+      <option value="">
+        All Categories
+      </option>
 
       {categories.map((category) => (
-
-        <button
+        <option
           key={category}
-          onClick={() => setSelectedCategory(category)}
-          className={`px-5 py-3 rounded-full transition
-
-          ${
-            selectedCategory === category
-              ? "bg-[#8B5E3C] text-white"
-              : "bg-white text-[#8B5E3C]"
-          }`}
+          value={category}
         >
           {category}
-        </button>
-
+        </option>
       ))}
 
-    </div>
+    </select>
   );
 }
 

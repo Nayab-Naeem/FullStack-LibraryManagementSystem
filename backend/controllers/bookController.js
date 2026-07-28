@@ -77,6 +77,9 @@ const getBooksWithDetails = async (req, res, next) => {
                 books.isbn,
                 books.published_year,
 
+                 books.author_id,
+                books.category_id,
+
                 authors.name AS author,
 
                 categories.name AS category,
@@ -197,7 +200,7 @@ const updateBook = async (req, res, next) => {
         const { id } = req.params;
 
 
-        const {title,isbn, published_year,author_id, category_id} = req.body;
+        const {title,isbn, published_year,author_id, category_id , quantity } = req.body;
 
         const result = await pool.query(
 
@@ -207,11 +210,13 @@ const updateBook = async (req, res, next) => {
             isbn=$2,
             published_year=$3,
             author_id=$4,
-            category_id=$5
-            WHERE id=$6
+            category_id=$5,
+            quantity=$6,
+            available_quantity = LEAST(available_quantity, $6)
+            WHERE id=$7
             RETURNING *`,
 
-            [title,isbn,published_year,author_id,category_id,id ]
+            [title,isbn,published_year,author_id,category_id,quantity , id ]
 
         );
         if(result.rows.length===0){
