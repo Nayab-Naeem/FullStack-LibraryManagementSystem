@@ -3,6 +3,7 @@ import API from "../api/api";
 import AuthorGrid from "../components/authors/AuthorGrid";
 import AuthorDetailModal from "../components/authors/AuthorDetailModal";
 import AddAuthorModal from "../components/authors/AddAuthorModal";
+import DeleteAuthorModal from "../components/authors/DeleteAuthorModal";
 
 function Authors() {
   const [authors, setAuthors] = useState([]);
@@ -13,6 +14,7 @@ function Authors() {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showFormModal, setShowFormModal] = useState(false);
   const [formMode, setFormMode] = useState("add");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
   fetchAuthors();
@@ -34,6 +36,11 @@ const handleEditAuthor = (author) => {
   setSelectedAuthor(author);
   setFormMode("edit");
   setShowFormModal(true);
+};
+
+const handleDeleteAuthor = (author) => {
+  setSelectedAuthor(author);
+  setShowDeleteModal(true);
 };
 
   async function fetchAuthors() {
@@ -96,7 +103,7 @@ async function fetchBooks() {
         </button>
       </div>
 
-     <AuthorGrid authors={authors} onViewBooks={handleViewBooks} onEdit={handleEditAuthor} />
+     <AuthorGrid authors={authors} onViewBooks={handleViewBooks} onEdit={handleEditAuthor} onDelete={handleDeleteAuthor} />
 
 <AuthorDetailModal
     isOpen={showDetailModal}
@@ -111,6 +118,13 @@ async function fetchBooks() {
   onSuccess={fetchAuthors}
   mode={formMode}
   author={selectedAuthor}
+/>
+
+<DeleteAuthorModal
+  isOpen={showDeleteModal}
+  onClose={() => setShowDeleteModal(false)}
+  author={selectedAuthor}
+  onSuccess={fetchAuthors}
 />
 
     </div>
