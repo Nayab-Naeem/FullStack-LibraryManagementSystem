@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
 import AuthorGrid from "../components/authors/AuthorGrid";
+import AuthorDetailModal from "../components/authors/AuthorDetailModal";
 
 function Authors() {
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+const [books, setBooks] = useState([]);
+const [selectedAuthor, setSelectedAuthor] = useState(null);
+const [showDetailModal, setShowDetailModal] = useState(false);
 
   useEffect(() => {
-    fetchAuthors();
-  }, []);
+  fetchAuthors();
+  fetchBooks();
+}, []);
+
+function handleViewBooks(author) {
+  setSelectedAuthor(author);
+  setShowDetailModal(true);
+}
 
   async function fetchAuthors() {
     try {
@@ -26,6 +36,14 @@ function Authors() {
       setLoading(false);
     }
   }
+async function fetchBooks() {
+  try {
+    const response = await API.get("/books/details");
+    setBooks(response.data.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
   if (loading) {
     return (
@@ -63,7 +81,15 @@ function Authors() {
         </button>
       </div>
 
-      <AuthorGrid authors={authors} />
+     <AuthorGrid authors={authors} onViewBooks={handleViewBooks} />
+
+<AuthorDetailModal
+    isOpen={showDetailModal}
+    onClose={() => setShowDetailModal(false)}
+    author={selectedAuthor}
+    books={books}
+/>
+
     </div>
   );
 }
