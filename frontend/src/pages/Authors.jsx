@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import AuthorGrid from "../components/authors/AuthorGrid";
 import AuthorDetailModal from "../components/authors/AuthorDetailModal";
+import AddAuthorModal from "../components/authors/AddAuthorModal";
 
 function Authors() {
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-const [books, setBooks] = useState([]);
-const [selectedAuthor, setSelectedAuthor] = useState(null);
-const [showDetailModal, setShowDetailModal] = useState(false);
+  const [books, setBooks] = useState([]);
+  const [selectedAuthor, setSelectedAuthor] = useState(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
+  const [formMode, setFormMode] = useState("add");
 
   useEffect(() => {
   fetchAuthors();
@@ -20,6 +23,18 @@ function handleViewBooks(author) {
   setSelectedAuthor(author);
   setShowDetailModal(true);
 }
+
+const handleAddAuthor = () => {
+  setSelectedAuthor(null);
+  setFormMode("add");
+  setShowFormModal(true);
+};
+
+const handleEditAuthor = (author) => {
+  setSelectedAuthor(author);
+  setFormMode("edit");
+  setShowFormModal(true);
+};
 
   async function fetchAuthors() {
     try {
@@ -76,18 +91,26 @@ async function fetchBooks() {
 
         <button
           className="bg-[#6B4423] text-white px-5 py-2 rounded-lg hover:bg-[#5a381d] transition"
-        >
+          onClick={handleAddAuthor} >
           + Add Author
         </button>
       </div>
 
-     <AuthorGrid authors={authors} onViewBooks={handleViewBooks} />
+     <AuthorGrid authors={authors} onViewBooks={handleViewBooks} onEdit={handleEditAuthor} />
 
 <AuthorDetailModal
     isOpen={showDetailModal}
     onClose={() => setShowDetailModal(false)}
     author={selectedAuthor}
     books={books}
+/>
+
+<AddAuthorModal
+  isOpen={showFormModal}
+  onClose={() => setShowFormModal(false)}
+  onSuccess={fetchAuthors}
+  mode={formMode}
+  author={selectedAuthor}
 />
 
     </div>

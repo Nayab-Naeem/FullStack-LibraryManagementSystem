@@ -55,8 +55,8 @@ function AuthorCard({
       <div className="grid grid-cols-2 gap-3 mt-4">
 
         <button
-          onClick={() => onEdit(author)}
           className="flex items-center justify-center gap-2 rounded-xl border border-[#D4A373] py-3 text-[#6B4423] font-medium hover:bg-[#FAF3E7] transition"
+          onClick={() => onEdit(author) }
         >
           <Pencil size={18} />
           Edit
