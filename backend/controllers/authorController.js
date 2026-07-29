@@ -3,8 +3,20 @@ const pool = require("../config/db");
 // GET ALL AUTHORS
 const getAllAuthors = async (req, res, next) => {
     try {
-        const result = await pool.query(
-            "SELECT * FROM authors ORDER BY id"
+            const result = await pool.query(
+    `
+    SELECT 
+        authors.id,
+        authors.name,
+        authors.email,
+        authors.country,
+        COUNT(books.id) AS total_books
+    FROM authors
+    LEFT JOIN books
+    ON authors.id = books.author_id
+    GROUP BY authors.id
+    ORDER BY authors.id
+    `
         );
 
         res.success(result.rows);
