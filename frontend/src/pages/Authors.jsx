@@ -4,6 +4,8 @@ import AuthorGrid from "../components/authors/AuthorGrid";
 import AuthorDetailModal from "../components/authors/AuthorDetailModal";
 import AddAuthorModal from "../components/authors/AddAuthorModal";
 import DeleteAuthorModal from "../components/authors/DeleteAuthorModal";
+import AuthorStats from "../components/authors/AuthorStats";
+import AuthorSearch from "../components/authors/AuthorSearch";
 
 function Authors() {
   const [authors, setAuthors] = useState([]);
@@ -15,6 +17,7 @@ function Authors() {
   const [showFormModal, setShowFormModal] = useState(false);
   const [formMode, setFormMode] = useState("add");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
   fetchAuthors();
@@ -42,6 +45,14 @@ const handleDeleteAuthor = (author) => {
   setSelectedAuthor(author);
   setShowDeleteModal(true);
 };
+
+const filteredAuthors = authors.filter((author)=>{
+  return (
+    author.name.toLowerCase().includes(search.toLowerCase()) ||
+    author.email.toLowerCase().includes(search.toLowerCase()) ||
+    author.country.toLowerCase().includes(search.toLowerCase())
+  );
+});
 
   async function fetchAuthors() {
     try {
@@ -86,24 +97,47 @@ async function fetchBooks() {
   return (
     <div className="p-6">
       {/* Page Header */}
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-[#6B4423]">
-            Authors
-          </h1>
-          <p className="text-gray-600 mt-1">
-            Manage all authors in your library.
-          </p>
-        </div>
+     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-8">
 
-        <button
-          className="bg-[#6B4423] text-white px-5 py-2 rounded-lg hover:bg-[#5a381d] transition"
-          onClick={handleAddAuthor} >
-          + Add Author
-        </button>
-      </div>
+  <div>
+    <h1 className="text-3xl font-bold text-[#6B4423]">
+      Authors
+    </h1>
 
-     <AuthorGrid authors={authors} onViewBooks={handleViewBooks} onEdit={handleEditAuthor} onDelete={handleDeleteAuthor} />
+    <p className="text-gray-600 mt-1">
+      Manage all authors in your library.
+    </p>
+  </div>
+
+  <button
+    onClick={handleAddAuthor}
+    className="
+      w-full
+      sm:w-auto
+      px-7
+      py-3
+      rounded-xl
+      bg-[#6B4423]
+      text-white
+      font-semibold
+      hover:bg-[#5a381d]
+      transition
+    "
+  >
+    + Add Author
+  </button>
+
+</div> 
+
+    <div className=" flex flex-col md:flex-row justify-between items-center gap-6 mb-8 ">
+
+<AuthorStats  totalAuthors={authors.length} />
+
+<AuthorSearch search={search}  setSearch={setSearch} />
+
+    </div>
+
+     <AuthorGrid authors={filteredAuthors} onViewBooks={handleViewBooks} onEdit={handleEditAuthor} onDelete={handleDeleteAuthor} />
 
 <AuthorDetailModal
     isOpen={showDetailModal}
