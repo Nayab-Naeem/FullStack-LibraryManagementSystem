@@ -4,7 +4,21 @@ const pool = require("../config/db");
 const getAllMembers = async (req, res, next) => {
     try {
         const result = await pool.query(
-            "SELECT * FROM members ORDER BY id"
+            `
+            SELECT
+                m.id,
+                m.name,
+                m.email,
+                m.phone,
+                m.joined_date,
+                COUNT(br.id) AS borrowed_books
+            FROM members m
+            LEFT JOIN borrow_records br
+                ON m.id = br.member_id
+                AND br.status = 'Borrowed'
+            GROUP BY m.id
+            ORDER BY m.id;
+            `
         );
 
         res.success(result.rows);
@@ -46,7 +60,7 @@ const addMember = async (req, res, next) => {
         const result = await pool.query(
             `INSERT INTO members(name, email, phone)
              VALUES($1, $2, $3)
-             RETURNING *`,
+             RETURNING id, name, email, phone, joined_date`,
             [name, email, phone]
         );
 
@@ -74,7 +88,7 @@ const updateMember = async (req, res, next) => {
                 email = $2,
                 phone = $3
              WHERE id = $4
-             RETURNING *`,
+             RETURNING RETURNING id, name, email, phone, joined_date`,
             [name, email, phone, id]
         );
 

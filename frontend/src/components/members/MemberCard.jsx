@@ -6,6 +6,7 @@ import {
   CalendarDays,
   Pencil,
   Trash2,
+  BookOpen
 } from "lucide-react";
 
 function MemberCard({
@@ -37,7 +38,7 @@ function MemberCard({
     p-5
     border
     border-[#f0e5d8]"
-    
+
     >
       {/* Avatar */}
 
@@ -93,6 +94,15 @@ function MemberCard({
         <span>{joinedDate}</span>
       </div>
   
+      {/* Borrowed details */}
+
+        <div className="flex items-center gap-2 mb-4 text-gray-700 text-sm">
+    <BookOpen size={18} />
+    <span>
+        Borrowed Books: {member.borrowed_books} 
+    </span>
+        </div>
+
       <div className="border-t border-gray-200 pt-4 grid grid-cols-2 gap-3">
 
   <button
