@@ -3,7 +3,7 @@ import API from "../api/api";
 
 import MemberStats from "../components/members/MemberStats";
 import MemberModal from "../components/members/MemberModal";
-// import MemberGrid from "../components/members/MemberGrid";
+import MemberGrid from "../components/members/MemberGrid";
 // import SearchBar from "../components/members/SearchBar";
 
 function Members() {
@@ -13,6 +13,7 @@ function Members() {
   const [search, setSearch] = useState("");
   const [showMemberModal,setShowMemberModal] = useState(false);
   const [selectedMember,setSelectedMember] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const fetchMembers = async () => {
     try {
@@ -48,6 +49,16 @@ function Members() {
     });
 
   }, [members, search]);
+
+  const handleEdit = (member) => {
+  setSelectedMember(member);
+  setShowMemberModal(true);
+};
+
+  const handleDelete = (member) => {
+  setSelectedMember(member);
+  setShowDeleteModal(true);
+};
 
   if (loading) {
     return (
@@ -102,6 +113,11 @@ function Members() {
       {/* Stats */}
 
       <MemberStats members={members}/>
+
+      <MemberGrid
+          members={filteredMembers} onEdit={handleEdit} onDelete={handleDelete}
+      />
+
 
   {
 showMemberModal && (

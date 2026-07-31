@@ -33,46 +33,48 @@ function MemberModal({
         }
     },[member]);
 
-    const handleChange = (e)=>{
-        setFormData({
-            ...formData,
-            [e.target.name]:e.target.value
-        });
-    };
 
-    const handleSubmit = async(e)=>{
-        e.preventDefault();
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+  if (name === "phone") {
+    // Allow only digits and maximum 11 characters
+    if (!/^\d*$/.test(value) || value.length > 11) {
+      return;
+    }
+  }
 
-        try{
+  setFormData({
+    ...formData,
+    [name]: value,
+  });
 
-            if(member){
-                // UPDATE MEMBER
-                await API.put(
-                    `/members/${member.id}`,
-                    formData
-                );
+};
 
-            }
-            else{
-                // ADD MEMBER
-                await API.post(
-                    "/members",
-                    formData
-                );
-            }
-
-            refreshMembers();
-            closeModal();
-
-        }
-        catch(error){
-
-            console.log(
-                "Member save error:",
-                error
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Validate phone number
+    if (!/^\d{11}$/.test(formData.phone)) {
+        alert("Phone number must contain exactly 11 digits.");
+        return;
+    }
+    try {
+        if (member) {
+            await API.put(
+                `/members/${member.id}`,
+                formData
+            );
+        } else {
+            await API.post(
+                "/members",
+                formData
             );
         }
-    };
+        refreshMembers();
+        closeModal();
+    } catch (error) {
+        console.log("Member save error:", error);
+    }
+};
 
     return (
 
@@ -124,26 +126,15 @@ function MemberModal({
                 onSubmit={handleSubmit}
                 className="space-y-4"
                 >
-
-                    <input
+                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Member Name"
-                    className="
-                    w-full
-                    border
-                    rounded-xl
-                    px-4
-                    py-3
-                    outline-none
-                    focus:ring-2
-                    focus:ring-[#D4A373]
-                    "
+                    className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-[#D4A373]"
                     required
-                    />
-
+/>
 
                     <input
                     type="email"
@@ -164,13 +155,14 @@ function MemberModal({
                     required
                     />
 
-                    <input
-
-                    type="text"
+                   <input
+                    type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="Phone Number"
+                    maxLength={11}
+                    pattern="[0-9]{11}"
+                    placeholder="03XXXXXXXXX"
                     className="
                     w-full
                     border
