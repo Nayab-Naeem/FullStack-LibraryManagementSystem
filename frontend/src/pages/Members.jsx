@@ -5,7 +5,7 @@ import MemberStats from "../components/members/MemberStats";
 import MemberModal from "../components/members/MemberModal";
 import MemberGrid from "../components/members/MemberGrid";
 import DeleteMemberModal from "../components/members/DeleteMemberModal";
-// import SearchBar from "../components/members/SearchBar";
+import SearchBar from "../components/members/SearchBar";
 
 function Members() {
 
@@ -115,6 +115,15 @@ function Members() {
 
       <MemberStats members={members}/>
 
+    <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+
+    <SearchBar
+        search={search}
+        setSearch={setSearch}
+    />
+
+  </div>
+  
       <MemberGrid
           members={filteredMembers} onEdit={handleEdit} onDelete={handleDelete}
       />
