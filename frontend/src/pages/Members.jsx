@@ -4,6 +4,7 @@ import API from "../api/api";
 import MemberStats from "../components/members/MemberStats";
 import MemberModal from "../components/members/MemberModal";
 import MemberGrid from "../components/members/MemberGrid";
+import DeleteMemberModal from "../components/members/DeleteMemberModal";
 // import SearchBar from "../components/members/SearchBar";
 
 function Members() {
@@ -126,6 +127,14 @@ showMemberModal && (
   refreshMembers={fetchMembers}
   member={selectedMember}
   />
+)}
+
+{
+showDeleteModal && (
+<DeleteMemberModal
+member={selectedMember}
+closeModal={()=>setShowDeleteModal(false)}
+refreshMembers={fetchMembers}/>
 )}
 
     </div>
