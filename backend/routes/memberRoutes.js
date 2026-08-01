@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const verifyToken = require("../middleware/authMiddleware");
 
 const {
     getAllMembers,
@@ -9,10 +10,10 @@ const {
     deleteMember
 } = require("../controllers/memberController");
 
-router.get("/", getAllMembers);
-router.get("/:id", getMemberById);
-router.post("/", addMember);
-router.put("/:id", updateMember);
-router.delete("/:id", deleteMember);
+router.get("/",verifyToken, getAllMembers);
+router.get("/:id",verifyToken, getMemberById);
+router.post("/",verifyToken, addMember);
+router.put("/:id",verifyToken, updateMember);
+router.delete("/:id",verifyToken, deleteMember);
 
 module.exports = router;

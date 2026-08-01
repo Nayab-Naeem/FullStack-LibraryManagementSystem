@@ -2,6 +2,8 @@ const express = require("express");
 
 const router = express.Router();
 const validateBook = require("../middleware/validateBook");
+const verifyToken = require("../middleware/authMiddleware");
+
 const { 
     getAllBooks,
     getBookById,
@@ -13,19 +15,19 @@ const {
 } = require("../controllers/bookController");
 
 
-router.get("/", getAllBooks);
+router.get("/", verifyToken, getAllBooks);
 
-router.get("/details", getBooksWithDetails);
+router.get("/details",verifyToken, getBooksWithDetails);
 
-router.get("/search", searchBooks);
+router.get("/search", verifyToken, searchBooks);
 
-router.get("/:id", getBookById);
+router.get("/:id", verifyToken,  getBookById);
 
-router.post("/", validateBook, addBook);
+router.post("/", verifyToken, validateBook, addBook);
 
-router.put("/:id", validateBook, updateBook);
+router.put("/:id", verifyToken, validateBook, updateBook);
 
-router.delete("/:id", deleteBook);
+router.delete("/:id", verifyToken, deleteBook);
 
 
 module.exports = router;
