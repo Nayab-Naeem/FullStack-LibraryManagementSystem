@@ -26,18 +26,21 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const memberRoutes = require("./routes/memberRoutes");
 const borrowRoutes = require("./routes/borrowRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const authRoutes = require("./routes/authRoutes");
+const verifyToken = require("./middleware/authMiddleware");
 
 app.use(express.json());
 
 app.use(apiResponse);
 
 
-app.use("/books", bookRoutes);
-app.use("/authors", authorRoutes);
+app.use("/books", verifyToken, bookRoutes);
+app.use("/authors", verifyToken, authorRoutes);
 app.use("/categories", categoryRoutes);
-app.use("/members", memberRoutes);
-app.use("/borrow-records", borrowRoutes);
+app.use("/members", verifyToken, memberRoutes);
+app.use("/borrow-records", verifyToken, borrowRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/auth", authRoutes);
 
 app.use(errorHandler);
 
