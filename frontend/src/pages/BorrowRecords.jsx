@@ -4,6 +4,8 @@ import API from "../api/api";
 import BorrowStats from "../components/borrowRecords/BorrowStats";
 import BorrowGrid from "../components/borrowRecords/BorrowGrid";
 import IssueBookModal from "../components/borrowRecords/IssueBookModal";
+import ReturnBookModal from "../components/borrowRecords/ReturnBookModal";
+import DeleteBookModal from "../components/borrowRecords/DeleteBookModal";
 
 function BorrowRecords() {
 
@@ -12,6 +14,8 @@ function BorrowRecords() {
     const [showIssueModal, setShowIssueModal] = useState(false);
     const [books, setBooks] = useState([]);
     const [members, setMembers] = useState([]);
+    const [selectedRecord, setSelectedRecord] = useState(null);
+    const [deleteRecord, setDeleteRecord] = useState(null);
 
     const fetchRecords = async () => {
 
@@ -63,6 +67,15 @@ const fetchMembers = async () => {
 
     }
 
+};
+
+const handleReturn = (record) => {
+    setSelectedRecord(record);
+};
+
+
+const handleDelete = (record)=>{
+    setDeleteRecord(record);
 };
 
     useEffect(() => {
@@ -129,6 +142,8 @@ const fetchMembers = async () => {
 
             <BorrowGrid
                 records={records}
+                onReturn={handleReturn}
+                onDelete={handleDelete}
             />
 
 {
@@ -137,6 +152,24 @@ showIssueModal && (
         books={books}
         members={members}
         closeModal={() => setShowIssueModal(false)}
+        refreshRecords={fetchRecords}
+/>
+)}
+
+{
+selectedRecord && (
+        <ReturnBookModal
+        record={selectedRecord}
+        closeModal={() => setSelectedRecord(null)}
+        refreshRecords={fetchRecords}
+/>
+)}
+
+{
+deleteRecord && (
+        <DeleteBookModal
+        record={deleteRecord}
+        closeModal={()=>setDeleteRecord(null)}
         refreshRecords={fetchRecords}
 />
 )}
