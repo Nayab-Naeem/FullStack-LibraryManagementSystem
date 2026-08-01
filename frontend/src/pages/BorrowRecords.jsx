@@ -6,6 +6,7 @@ import BorrowGrid from "../components/borrowRecords/BorrowGrid";
 import IssueBookModal from "../components/borrowRecords/IssueBookModal";
 import ReturnBookModal from "../components/borrowRecords/ReturnBookModal";
 import DeleteBookModal from "../components/borrowRecords/DeleteBookModal";
+import SearchBar from "../components/borrowRecords/SearchBar";
 
 function BorrowRecords() {
 
@@ -16,6 +17,7 @@ function BorrowRecords() {
     const [members, setMembers] = useState([]);
     const [selectedRecord, setSelectedRecord] = useState(null);
     const [deleteRecord, setDeleteRecord] = useState(null);
+    const [search, setSearch] = useState("");
 
     const fetchRecords = async () => {
 
@@ -86,6 +88,20 @@ const handleDelete = (record)=>{
 
 }, []);
 
+const filteredRecords = records.filter((record)=>{
+
+    return (
+        record.title
+        .toLowerCase()
+        .includes(search.toLowerCase())
+        ||
+        record.member
+        .toLowerCase()
+        .includes(search.toLowerCase())
+    );
+
+});
+
 
     if (loading) {
 
@@ -136,12 +152,15 @@ const handleDelete = (record)=>{
 
             <BorrowStats records={records} />
 
-
+            {/* Search Bar */}
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+          <SearchBar search={search} setSearch={setSearch} />
+            </div>
 
             {/* Borrow Cards */}
 
             <BorrowGrid
-                records={records}
+                records={filteredRecords}
                 onReturn={handleReturn}
                 onDelete={handleDelete}
             />
