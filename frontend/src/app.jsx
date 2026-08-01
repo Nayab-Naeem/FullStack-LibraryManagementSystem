@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Books from "./pages/Books";
 import Authors from "./pages/Authors";
 import Members from "./pages/Members";
+import BorrowRecords from "./pages/BorrowRecords";
 
 import { Toaster } from "react-hot-toast";
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/books" element={<Books />} />
           <Route path="/authors" element={<Authors />} />
           <Route path="/members" element={<Members />} />
+          <Route path="/borrow-records" element={<BorrowRecords/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { FaBook, FaUserEdit, FaUsers, FaChartPie } from "react-icons/fa";
-
+import { FaBook, FaUserEdit, FaUsers, FaChartPie, FaClipboardList } from "react-icons/fa";
+import { ClipboardList } from "lucide-react";
 function Sidebar() {
 
   const links = [
@@ -23,6 +23,11 @@ function Sidebar() {
       name: "Members",
       path: "/members",
       icon: <FaUsers />
+    },
+    {
+    name: "Borrow Records",
+    path: "/borrow-records",
+    icon: <FaClipboardList />
     }
   ];
 
