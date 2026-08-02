@@ -11,7 +11,11 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173"  // for this port cor will give access
+    origin: [
+      "http://localhost:5173",
+      "https://your-vercel-app-url.vercel.app"
+    ],
+    credentials: true
   })
 );
 
