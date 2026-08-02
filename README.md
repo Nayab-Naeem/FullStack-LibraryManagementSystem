@@ -1,193 +1,140 @@
 # 📚 Librariea — Full Stack Library Management System
 
-A modern **full-stack Library Management System** designed to simplify library operations including book management, author management, member management and borrowing/return tracking.
+A modern full-stack Library Management System built to simplify library operations. It includes secure admin authentication, book/author/member management, borrow & return tracking with inventory control, and an interactive admin dashboard.
 
-**Librariea** provides a complete admin dashboard with secure authentication, RESTful APIs, PostgreSQL database integration, and a responsive user interface.
-
-This project demonstrates full-stack development skills using **React, Tailwind CSS, Node.js , Express.js, PostgreSQL and JWT Authentication**.
+**Tech Stack:** React • Tailwind CSS • Node.js • Express.js • PostgreSQL • JWT
 
 ---
 
-# 🚀 Features
+## ✨ Features
 
-## 🔐 Authentication & Security
-
+### Authentication & Security
 - Admin registration and login
 - JWT-based authentication
-- Protected frontend routes
-- Secure backend API routes
-- Password hashing using bcrypt
-- Token-based authorization
+- Protected frontend and backend routes
+- Password hashing with bcrypt
 
----
-
-# 📊 Admin Dashboard
-
-- Overview of library statistics
-- Total books, authors, members, and borrowed books
+### Admin Dashboard
+- Overview statistics (books, authors, members, borrowed books)
 - Book availability visualization
 - Interactive charts
-- Animated UI components
-- Responsive dashboard design
+- Responsive and animated UI
 
----
-
-# 📚 Book Management
-
-- Add new books
-- Update book information
-- Delete books
+### Book Management
+- Add, update, and delete books
 - View detailed book information
-- Search books by title and ISBN
-- Filter books by category
+- Search by title / ISBN
+- Filter by category
 - Track total quantity and available quantity
 
----
+### Author Management
+- Add, update, and delete authors
+- View author details and associated books
 
-# ✍️ Author Management
+### Member Management
+- Add, update, and delete library members
+- View member borrowing history
 
-- Add new authors
-- Update author details
-- Delete authors
-- View author information
-- Track books written by each author
-
----
-
-# 👥 Member Management
-
-- Add and manage library members
-- Update member information
-- Delete members
-- View member borrowing records
+### Borrow & Return System
+- Borrow books with availability checks
+- Return books with automatic inventory updates
+- Prevent double returns
+- Track borrow/return dates and status
 
 ---
 
-# 🔄 Borrow & Return Management
+## 🛠️ Tech Stack
 
-- Borrow books from available inventory
-- Return borrowed books
-- Automatically update available book quantity
-- Track borrowing status
-- Manage borrow and return dates
+| Layer       | Technologies                                      |
+|-------------|---------------------------------------------------|
+| Frontend    | React, Vite, Tailwind CSS, React Router, Axios, Framer Motion, Recharts, React Hot Toast |
+| Backend     | Node.js, Express.js, PostgreSQL (`pg`), JWT, bcrypt |
+| Tools       | Git, VS Code, Thunder Client                      |
 
 ---
 
-# 🛠️ Tech Stack
+## 📁 Project Structure
 
-## Frontend
+FullStack-LibraryManagementSystem/
+├── frontend/                  # React + Vite application
+│   ├── src/
+│   │   ├── api/               # API service functions
+│   │   ├── components/        # Reusable UI components
+│   │   ├── layouts/           # Dashboard layout
+│   │   ├── pages/             # Page components
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── ...
+│
+└── backend/                   # Express.js REST API
+├── config/                # Database configuration
+├── controllers/           # Business logic
+├── middleware/            # Auth, response & error handlers
+├── routes/                # API routes
+├── index.js
+└── ...
 
-- React.js
-- Vite
-- Tailwind CSS
-- React Router DOM
-- Axios
-- Framer Motion
-- Recharts
-- React Hot Toast
 
-## Backend
+---
 
-- Node.js
-- Express.js
+## 🗄️ Database Design
+
+PostgreSQL relational database with the following main entities:
+
+- **admins** — Admin authentication
+- **books** — Book inventory (title, ISBN, quantity, available quantity, etc.)
+- **authors** — Author information
+- **categories** — Book categories
+- **members** — Library members
+- **borrow_records** — Borrow/return transactions and status
+
+Relationships are handled with foreign keys and JOIN queries.
+
+---
+
+## 🔌 API Endpoints
+
+All management routes (except authentication and some public endpoints) are protected with JWT.
+
+| Module          | Base Path            | Description                     |
+|-----------------|----------------------|---------------------------------|
+| Authentication  | `/auth`              | Register & Login                |
+| Books           | `/books`             | CRUD + search + details         |
+| Authors         | `/authors`           | CRUD                            |
+| Categories      | `/categories`        | CRUD                            |
+| Members         | `/members`           | CRUD                            |
+| Borrow Records  | `/borrow-records`    | Borrow, return, list, delete    |
+| Dashboard       | `/dashboard`         | Statistics & overview data      |
+
+---
+
+## ⚙️ Installation & Setup
+
+### Prerequisites
+- Node.js (v18 or higher)
 - PostgreSQL
-- RESTful API Architecture
-- JWT Authentication
-- bcrypt Password Hashing
+- Git
 
-## Tools
-
-- Git & GitHub
-- Thunder Client
-- VS Code
-
----
-
-# 🏗️ Project Architecture
-FullStack-LibraryManagementSystem
-
-│
-├── frontend
-│ ├── React + Vite
-│ ├── Components
-│ ├── Pages
-│ ├── Tailwind UI
-│ ├── API Integration
-│ └── Authentication Flow
-│
-│
-└── backend
-├── Express Server
-├── Routes
-├── Controllers
-├── Middleware
-├── PostgreSQL Database
-└── JWT Authentication
-
-
----
-
-# 🗄️ Database Design
-
-The application uses a relational PostgreSQL database.
-
-## Main Entities
-
-- Admins
-- Books
-- Authors
-- Categories
-- Members
-- Borrow Records
-
-
-
----
-
-# 🔌 REST API Modules
-
-The backend provides APIs for:
-Authentication
-/auth/register
-/auth/login
-
-Books
-/books
-
-Authors
-/authors
-
-Categories
-/categories
-
-Members
-/members
-
-Borrow Records
-/borrow-records
-
-Dashboard
-/dashboard
-
-All management routes are secured using JWT authentication.
-
----
-
-# ⚙️ Installation & Setup
-
-## Clone Repository
+### Clone the repository
 
 ```bash
 git clone https://github.com/Nayab-Naeem/FullStack-LibraryManagementSystem.git
-
 ```
+
+- cd FullStack-LibraryManagementSystem
+
+- cd backend
+ npm install
+ npm run dev
+
+- cd frontend
+ npm install
+ npm run dev
+
 
 ## 👨‍💻 Author
 
-**Nayab Naeem**  
-BS Computer Science Student  | Web developer | AI Enthausiast
-
-GitHub:  
-https://github.com/Nayab-Naeem
-
----
+Nayab Naeem
+Computer Science Student | Full Stack Developer | AI Enthusiast
+GitHub: https://github.com/Nayab-Naeem
+LinkedIn: https://www.linkedin.com/in/nayabnaeemcs/
