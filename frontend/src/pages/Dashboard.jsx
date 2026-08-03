@@ -1,163 +1,94 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import StatCard from "../components/StatCard";
-import API from "../api/api";
 import LibraryOverviewChart from "../components/bookChart";
+import API from "../api/api";
+import { BookOpen, Users, UserPen, Layers, BookMarked, Copy } from "lucide-react";
 
 function Dashboard() {
-
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-
-
   useEffect(() => {
-
     async function fetchStats() {
-
       try {
-
-        const books = await API.get("/books");
-        const authors = await API.get("/authors");
-        const members = await API.get("/members");
-        const borrowRecords = await API.get("/borrow-records");
-
-
-        setStats({
-          books: books.data.data.length,
-          authors: authors.data.data.length,
-          members: members.data.data.length,
-          borrowed: borrowRecords.data.data.filter(
-            (record) => record.status === "Borrowed"
-          ).length
-        });
-
-
-      } catch (error) {
-
-        console.log("Dashboard Error:", error.message);
-
+        const res = await API.get("/dashboard");
+        setStats(res.data.data);
+      } catch (err) {
+        console.error("Dashboard Error:", err);
         setError("Failed to load dashboard data");
-
       } finally {
-
         setLoading(false);
-
       }
-
     }
-
-
     fetchStats();
-
   }, []);
 
   if (loading) {
-
     return (
-      <div>
-        <h1 className="text-3xl font-bold text-[#6B4423]">
-          Dashboard
-        </h1>
-
-        <p className="mt-5 text-gray-600">
-          Loading dashboard data...
-        </p>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-amber-200 border-t-[#6B4423]" />
       </div>
     );
   }
 
   if (error) {
-
     return (
-      <div>
-        <h1 className="text-3xl font-bold text-[#6B4423]">
-          Dashboard
-        </h1>
-
-        <p className="mt-5 text-red-500">
-          {error}
-        </p>
+      <div className="rounded-xl bg-red-50 p-6 text-red-600 border border-red-100">
+        {error}
       </div>
     );
-
   }
 
+  const availabilityRate = stats.total_copies
+    ? Math.round((stats.available_copies / stats.total_copies) * 100)
+    : 0;
+
   return (
-    <div>
-<div className="flex items-center justify-between">
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-[#6B4423]">Dashboard</h1>
+          <p className="mt-1 text-gray-500">Welcome back to Librariea 📚</p>
+        </div>
 
-  <div>
-    <h1 className="text-3xl font-bold text-[#6B4423]">
-      Dashboard
-    </h1>
+        <div className="flex items-center gap-3">
+          <div className="rounded-full bg-amber-100 px-4 py-2 text-sm font-medium text-amber-800">
+            {availabilityRate}% books available
+          </div>
+        </div>
+      </div>
 
-    <p className="mt-2 text-gray-600">
-      Welcome back...
-    </p>
-  </div>
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        <StatCard title="Total Books" value={stats.total_books} icon={<BookOpen />} color="amber" />
+        <StatCard title="Total Copies" value={stats.total_copies} icon={<Copy />} color="blue" />
+        <StatCard title="Available Copies" value={stats.available_copies} icon={<BookMarked />} color="green" />
+        <StatCard title="Borrowed Books" value={stats.borrowed_books} icon={<BookOpen />} color="rose" />
+        <StatCard title="Members" value={stats.total_members} icon={<Users />} color="purple" />
+        <StatCard title="Authors" value={stats.total_authors} icon={<UserPen />} color="amber" />
+      </div>
 
+      {/* Charts */}
+      <LibraryOverviewChart stats={stats} />
 
-  {/* Dashboard Animation */}
-
-  <div className="relative flex h-32 w-32 items-center justify-center">
-
-    <div className="absolute h-24 w-24 animate-pulse rounded-full bg-amber-300/30 blur-xl">
-    </div>
-
-
-    <div className="relative animate-bounce text-6xl">
-      📚
-    </div>
-
-
-    <div className="absolute left-2 top-2 animate-pulse text-xl">
-      ✨
-    </div>
-
-
-    <div className="absolute right-2 bottom-2 animate-bounce text-xl">
-      📖
-    </div>
-
-  </div>
-
-</div>
-
-
-
-      <div className="mt-8"> <LibraryOverviewChart stats={stats} /> </div>
-
-{/* Stat Cards After Chart */}
-    <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-
-
-      <StatCard
-        title="Total Books"
-        value={stats.books}
-      />
-
-
-      <StatCard
-        title="Authors"
-        value={stats.authors}
-      />
-
-
-      <StatCard
-        title="Members"
-        value={stats.members}
-      />
-
-
-      <StatCard
-        title="Borrowed Books"
-        value={stats.borrowed}
-      />
-
-
-    </div>
-
+      {/* Optional Quick Actions (nice extra) */}
+      <div className="rounded-2xl bg-white p-6 shadow-sm border border-amber-100">
+        <h3 className="text-lg font-bold text-[#6B4423] mb-4">Quick Actions</h3>
+        <div className="flex flex-wrap gap-3">
+          <a href="/books" className="rounded-xl bg-[#6B4423] px-5 py-2.5 text-white text-sm font-medium hover:bg-[#5a3a1f] transition">
+            + Add Book
+          </a>
+          <a href="/members" className="rounded-xl bg-amber-100 px-5 py-2.5 text-amber-900 text-sm font-medium hover:bg-amber-200 transition">
+            + Add Member
+          </a>
+          <a href="/borrow-records" className="rounded-xl bg-emerald-100 px-5 py-2.5 text-emerald-900 text-sm font-medium hover:bg-emerald-200 transition">
+            Issue Book
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
