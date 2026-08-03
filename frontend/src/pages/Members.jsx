@@ -6,6 +6,7 @@ import MemberModal from "../components/members/MemberModal";
 import MemberGrid from "../components/members/MemberGrid";
 import DeleteMemberModal from "../components/members/DeleteMemberModal";
 import SearchBar from "../components/members/SearchBar";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Members() {
 
@@ -61,13 +62,9 @@ function Members() {
   setShowDeleteModal(true);
 };
 
-  if (loading) {
-    return (
-      <div className="text-center text-[#6B4423] mt-10">
-        Loading members...
-      </div>
-    );
-  }
+ if (loading) {
+  return <LoadingSpinner message="Loading Members..." />;
+}
 
   return (
     <div className="p-6">

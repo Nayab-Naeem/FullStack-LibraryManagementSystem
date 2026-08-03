@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import StatCard from "../components/StatCard";
 import LibraryOverviewChart from "../components/bookChart";
+import LoadingSpinner from "../components/LoadingSpinner";
 import API from "../api/api";
 import { BookOpen, Users, UserPen, Layers, BookMarked, Copy } from "lucide-react";
 
@@ -26,12 +27,8 @@ function Dashboard() {
   }, []);
 
   if (loading) {
-    return (
-      <div className="flex h-64 items-center justify-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-4 border-amber-200 border-t-[#6B4423]" />
-      </div>
-    );
-  }
+  return <LoadingSpinner message="Loading Dashboard..." />;
+}
 
   if (error) {
     return (

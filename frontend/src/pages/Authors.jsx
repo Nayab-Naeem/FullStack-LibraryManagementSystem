@@ -6,6 +6,7 @@ import AddAuthorModal from "../components/authors/AddAuthorModal";
 import DeleteAuthorModal from "../components/authors/DeleteAuthorModal";
 import AuthorStats from "../components/authors/AuthorStats";
 import AuthorSearch from "../components/authors/AuthorSearch";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function Authors() {
   const [authors, setAuthors] = useState([]);
@@ -79,12 +80,9 @@ async function fetchBooks() {
 }
 
   if (loading) {
-    return (
-      <div className="p-8 text-center text-[#6B4423]">
-        Loading authors...
-      </div>
-    );
-  }
+  return <LoadingSpinner message="Loading Authors..." />;
+}
+
 
   if (error) {
     return (

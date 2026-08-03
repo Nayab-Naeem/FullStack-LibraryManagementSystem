@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import API from "../api/api";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-// import { useState } from "react";
 import AddBookModal from "../components/books/AddBookModal";
 import DeleteBookModal from "../components/books/DeleteBookModal";
 import BookStats from "../components/books/BookStats";
@@ -90,12 +90,10 @@ function Books() {
     });
   }, [books, search, selectedCategory]);
 
-  if (loading)
-    return (
-      <div className="text-center text-xl p-10">
-        Loading Books...
-      </div>
-    );
+
+  if (loading) {
+  return <LoadingSpinner message="Loading Books..." />;
+}
 
   return (
     <div className="p-8 bg-[#FAF3E7] min-h-screen">

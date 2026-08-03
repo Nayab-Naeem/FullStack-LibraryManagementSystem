@@ -7,6 +7,7 @@ import IssueBookModal from "../components/borrowRecords/IssueBookModal";
 import ReturnBookModal from "../components/borrowRecords/ReturnBookModal";
 import DeleteBookModal from "../components/borrowRecords/DeleteBookModal";
 import SearchBar from "../components/borrowRecords/SearchBar";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function BorrowRecords() {
 
@@ -103,17 +104,10 @@ const filteredRecords = records.filter((record)=>{
 });
 
 
-    if (loading) {
+if (loading) {
+  return <LoadingSpinner message="Loading Borrow Records..." />;
+}
 
-        return (
-            <div className="flex justify-center items-center h-[70vh]">
-                <p className="text-xl text-[#6B4423] font-semibold">
-                    Loading Borrow Records...
-                </p>
-            </div>
-        );
-
-    }
 
 
     return (
