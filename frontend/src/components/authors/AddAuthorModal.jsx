@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import API from "../../api/api";
+import API from "../../api/API";
 
 function AddAuthorModal({
   isOpen,

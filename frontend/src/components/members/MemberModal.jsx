@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import API from "../../api/api";
+import API from "../../api/API";
 
 
 function MemberModal({

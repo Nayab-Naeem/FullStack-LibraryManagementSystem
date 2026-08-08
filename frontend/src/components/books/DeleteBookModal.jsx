@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { FiAlertTriangle, FiTrash2 } from "react-icons/fi";
-import API from "../../api/api";
+import API from "../../api/API";
 import toast from "react-hot-toast";
 
 function DeleteBookModal({ book, onClose, onDeleted }) {

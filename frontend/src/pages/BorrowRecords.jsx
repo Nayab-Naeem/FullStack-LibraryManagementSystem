@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api/api";
+import API from "../api/API";
 
 import BorrowStats from "../components/borrowRecords/BorrowStats";
 import BorrowGrid from "../components/borrowRecords/BorrowGrid";

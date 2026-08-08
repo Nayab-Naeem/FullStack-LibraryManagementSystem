@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import API from "../../api/api";
+import API from "../../api/API";
 import toast from "react-hot-toast";
 
 function AddBookModal({ onClose, onBookAdded , book }) {

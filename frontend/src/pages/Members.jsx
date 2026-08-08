@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import API from "../api/api";
+import API from "../api/API";
 
 import MemberStats from "../components/members/MemberStats";
 import MemberModal from "../components/members/MemberModal";

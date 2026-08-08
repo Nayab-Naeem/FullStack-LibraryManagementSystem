@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { X, Trash2 } from "lucide-react";
-import API from "../../api/api";
+import API from "../../api/API";
 
 
 function DeleteMemberModal({

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../api/api";
+import API from "../api/API";
 import AuthorGrid from "../components/authors/AuthorGrid";
 import AuthorDetailModal from "../components/authors/AuthorDetailModal";
 import AddAuthorModal from "../components/authors/AddAuthorModal";

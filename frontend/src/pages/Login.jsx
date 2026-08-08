@@ -1,5 +1,5 @@
 import { useState } from "react";
-import API from "../api/api";
+import API from "../api/API";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { BookOpen } from "lucide-react";

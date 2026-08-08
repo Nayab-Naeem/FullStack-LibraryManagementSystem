@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import StatCard from "../components/StatCard";
 import LibraryOverviewChart from "../components/bookChart";
 import LoadingSpinner from "../components/LoadingSpinner";
-import API from "../api/api";
+import API from "../api/API";
 import { BookOpen, Users, UserPen, Layers, BookMarked, Copy } from "lucide-react";
 
 function Dashboard() {
