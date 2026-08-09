@@ -11,12 +11,13 @@ const app = express();
 
 app.use(
   cors({
-   origin: "*",
-    // origin: [
-    //   "http://localhost:5173",
-    //   "https://your-vercel-app-url.vercel.app"
-    // ],
-    credentials: true
+    origin: [
+      "http://localhost:5173",
+      "https://full-stack-library-management-syste-xi.vercel.app"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 
@@ -59,6 +60,6 @@ pool.connect()
     });
 
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on port ${PORT}`);
 });
